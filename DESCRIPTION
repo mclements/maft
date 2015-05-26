@@ -1,0 +1,10 @@
+Package: maft
+Type: Package
+Title: Routines for family data
+Version: 1.01
+Date: 2015-06-01
+Author: Yudi Pawitan, Ben Yip, Robert Szulkin, Mark Clements
+Maintainer: Mark Clements <mark.clements@ki.se>
+Description: Routines for family data
+Depends: survival, eha
+License: GPL-3
