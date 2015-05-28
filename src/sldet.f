@@ -2,11 +2,11 @@ c from det-work.f in papers/ascertainment/survival/fortran
 c
 c subroutine to compute the penalty = sum(log(det(..)))
 c
-	subroutine sldet(nr,nc,W,invD,vare,logdet)
+	subroutine sldet(nr,nc,W,invD,vare,logdet,ilogdet)
 c        parameter (LDA=2, pi=3.141593d0)
 c	parameter (LDA=nr, pi=3.141593d0)
-	parameter (pi=3.141593d0)
-	double precision W(nr,nc), invD(nr,nr), vare
+	parameter (pi=3.141592653589793115998d0)
+	double precision W(nr,nc), invD(nr,nr), vare, ilogdet(nc)
 
         double precision A(nr,nr), logdet
         CHARACTER*1  UPLO
@@ -26,11 +26,12 @@ c create nrxnr matrix A = (diag(W) + vare*invD)/(2*pi*vare)
 c          det  = A(1,1)*A(2,2) - A(1,2)*A(2,1)
 c         print*,A,det
         UPLO = 'U'
-        call DPOTF2( UPLO, nr, A, LDA, INFO)
-	
+        call DPOTF2( UPLO, nr, A, nr, INFO)
+	ilogdet(ic) = 0.d0
 	do i=1,nr
-          logdet = logdet + 2.d0*dlog(A(i,i))
+          ilogdet(ic) = ilogdet(ic) + 2.d0*dlog(A(i,i))
         enddo
+	logdet = logdet + ilogdet(ic)
 c end ic loop
         enddo
 
